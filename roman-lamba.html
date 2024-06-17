@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Lambda Roman Square Roots</title>
+</head>
+
+<body>
+  <script>
+    const LAMBDA_URL = 'https://fdzz5y2xtnjspequaqfajio5zi0ifvyh.lambda-url.us-west-2.on.aws/';
+
+    function getSqrVal(val) {
+      const do_types = document.querySelector('input[name="type_on_off"]:checked').value;
+      const roman_text = document.querySelector('input[name="roman_input"]').value;
+      const roman_trim = roman_text.trim();
+      const lambda_with_params = LAMBDA_URL + "?roman_param=" + roman_trim + "&type_check=" + do_types;
+      callLambda(lambda_with_params);
+    }
+
+    function recordResponse(the_answer) {
+      if (the_answer.includes("PRE_romanSqrt() PRE-FUNC")) {
+        const server_answer = "\n Server Type Error : " + the_answer;
+        document.querySelector('textarea[name="sq_errors"]').textContent += server_answer;
+      } else {
+        document.querySelector('span[name="sq_answer"]').textContent = the_answer;
+      }
+    }
+
+    function callLambda(lambda_with_params) {
+      fetch(lambda_with_params, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'text/plain'        // 'application/json' does extra flight-check
+        }
+      })
+        .then(response => response.json())
+        .then(data_obj => data_obj.message)
+        .then(the_answer => recordResponse(the_answer))
+        .catch(error => console.error(error));
+    }
+
+    function changeRomanNumber(val) {
+      document.querySelector('span[name="sq_button"]').textContent = val;
+      document.querySelector('span[name="sq_text"]').textContent = val;
+      document.querySelector('span[name="sq_answer"]').textContent = "?";
+    }
+
+  </script>
+
+  <span style=" font-weight:bold; font-size: x-large;">Roman Square Roots running on AWS
+    Lambda
+  </span>
+  <br><br>
+  <div>
+    <label><input type="radio" name="type_on_off" value="yes" checked=""> Server Type Checking On</label>
+    <!--- 
+      const TYPE_CHECK_ON = "yes";
+      const TYPE_CHECK_OFF = "no";
+    -->
+    <br>
+    <label><input type="radio" name="type_on_off" value="no"> Server Type Checking Off</label>
+  </div>
+  <br><br>
+  XVI (16) &nbsp;&nbsp; LXIV (64) &nbsp;&nbsp; CXLIV (144)
+  <br><br><br>
+  Input Roman number
+  <br><input type="text" value="xvi" oninput="changeRomanNumber(this.value)" onchange="changeRomanNumber(this.value)"
+    autocomplete="off" name="roman_input">
+  <br><br>
+  <button onclick="getSqrVal()">
+    Calculate <span style="margin-right: -4px;">√</span>
+    <span style="text-decoration-line: overline;" name="sq_button">xvi</span> on AWS Lambda
+  </button>
+
+  <span style="margin-right: -4px;">√</span>
+  <span style="text-decoration-line: overline;" name="sq_text">xvi</span> = <span name="sq_answer"
+    style="color:red; font-weight:bold; font-size: x-large;">?</span>
+
+  <br><br><br>
+  Type errors on server appear here, if on using <a href="https://www.npmjs.com/package/type-czech">TypeCzech</a>.
+  Ancient Greek TNH (358)
+  <br>
+  <textarea cols="123" rows="20" readonly="" name="sq_errors"></textarea>
+
+</body>
+
+</html>

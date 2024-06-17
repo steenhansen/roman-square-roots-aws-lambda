@@ -1,0 +1,7 @@
+{
+  "name": "cdk-load-tc",
+  "version": "0.1.0",
+  "dependencies": {
+    "type-czech": "^1.7.1"
+  }
+}
