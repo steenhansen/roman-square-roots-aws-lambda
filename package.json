@@ -7,7 +7,7 @@
   "scripts": {
     "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
     "cdk": "cdk",
-    "test": "jest --clearCache && jest"
+    "test": "jest --clearCache --forceExit && jest"
   },
   "devDependencies": {
     "aws-cdk": "2.145.0",
