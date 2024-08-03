@@ -1,7 +1,11 @@
 const { LOWER_ROMAN_CHARS, VALID_ROMAN_NUMBER, isNumericStr, romanToInt, intToRoman } = require("./roman-numbers");
 
+
+const { TypeCzech } = require('type-czech');
+let type_czech = TypeCzech('THROW-EXCEPTIONS');
+
 function PRE_romanSqrt(roman_str) {
-  not_string_err = type_czech.checkParam_type(roman_str, 'string');
+  const not_string_err = type_czech.checkParam_type(roman_str, 'string');
   if (not_string_err)
     return not_string_err;  // ERROR_ROMAN_1
   if (roman_str.length === 0)

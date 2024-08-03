@@ -6,30 +6,21 @@
 
  Finds square roots of Roman Numbers, with server type checking turned on or off in browser.
  - [Live Site](https://single-html.s3.us-west-2.amazonaws.com/roman-lamba.html)
-  - [AWS Lambda](https://fdzz5y2xtnjspequaqfajio5zi0ifvyh.lambda-url.us-west-2.on.aws/?roman_param=xvi&type_check=yes) returning IV from XVI
+  - [AWS Lambda](https://xyber3kpjd7iq5d2hutfhf3z2y0fgbxn.lambda-url.us-west-2.on.aws/?roman_param=xvi&type_check=yes) returning IV from XVI
 
 
 ## Install
+	cd lambda-roman
 	npm install
-	npm run test
-	setx AWS_PROFILE IAM-user-name
-	cdk bootstrap
-	cdk synth
-	cdk deploy
 
+	cd /
+	npm install
+
+	cdk bootstrap  --profile oregon-user    
+	cdk synth      --profile oregon-user  >  c:\.aws\roman_synth.yaml
+	cdk deploy     --profile oregon-user                            
  
 ![screen shot](tall-lambda.gif)
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,10 +1,10 @@
-// https://fdzz5y2xtnjspequaqfajio5zi0ifvyh.lambda-url.us-west-2.on.aws/?roman_param=cxliv&type_check=yes
+// https://xyber3kpjd7iq5d2hutfhf3z2y0fgbxn.lambda-url.us-west-2.on.aws/?roman_param=iv
 
 const { TypeCzech } = require('type-czech');
 
 let { PRE_romanSqrt, romanSqrt, corsResponse, convertNumberToInt } = require("./misc-func");
 
-type_czech = TypeCzech('THROW-EXCEPTIONS');
+let type_czech = TypeCzech('THROW-EXCEPTIONS');
 romanSqrt = type_czech.linkUp(romanSqrt, PRE_romanSqrt);
 
 exports.handler = async (get_event) => {
@@ -12,10 +12,16 @@ exports.handler = async (get_event) => {
   if (the_path === "/favicon.ico") {
     return { statusCode: 410 };
   }
-  const roman_str = get_event['queryStringParameters']['roman_param'];
-  if (typeof roman_str === 'undefined') {
-    return { statusCode: 400 };
+
+  if (get_event['queryStringParameters'] === undefined) {
+    return corsResponse("Missing parameters, try https://abcd.lambda-url.us-west-2.on.aws/?roman_param=cxliv&type_check=yes");
   }
+
+  if (get_event['queryStringParameters']['roman_param'] === undefined) {
+    return corsResponse("Missing roman_param, try https://abcd.lambda-url.us-west-2.on.aws/?roman_param=cxliv");
+  }
+
+  const roman_str = get_event['queryStringParameters']['roman_param'];
   const type_check = get_event['queryStringParameters']['type_check'];
   if (type_check === 'yes') {
     type_czech.enableTests();
